@@ -17,7 +17,7 @@
 - **`TransactionDefinition.PROPAGATION_SUPPORTS`**：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
 - **`TransactionDefinition.PROPAGATION_NOT_SUPPORTED`**：以非事务方式运行，如果当前存在事务，则把当前事务挂起。
 - **`TransactionDefinition.PROPAGATION_NEVER`**：以非事务方式运行，如果当前存在事务，则抛出异常。
-#### 事务的隔离级别
+#### 事务的隔离级别 （[隔离级别](../../数据库/基础和原理/隔离级别.md)）
 - **`TransactionDefinition.ISOLATION_DEFAULT`**：使用后端数据库默认的隔离级别，`MySQL`默认采用的`REPEATABLE_READ`隔离级别，`Oracle`默认采用的`READ_COMITTED`隔离级别
 - **`TransactionDefinition.ISOLATION_READ_UNCOMMITTED`**：最低的隔离级别，使用这个隔离级别很少，因为它允许读取尚未提交的数据变更，**可能会导致脏读、幻读或不可重复读。**[[../../数据库/基础和原理/并发一致性问题.md|并发一致性问题]]
 - **`TransactionDefinition.ISOLATION_REPEATABLE_READ`**：对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，**可以阻止脏读和不可重复读**，**但幻读仍有可能发生**。
