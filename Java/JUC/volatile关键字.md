@@ -1,6 +1,6 @@
 #### 作用
 ##### 防重排序
-在并发环境下的单利实现，通常可以采用**双重检查加锁（DCL）**的方式来实现，示例如下：
+在并发环境下的单例实现，通常可以采用**双重检查加锁（DCL）的方式来实现，示例如下：
 ``` java
 public class Singleton {  
     public static volatile Singleton singleton;  
