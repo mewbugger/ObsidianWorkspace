@@ -18,6 +18,105 @@ AOP之所以叫面向切面编程，是因为它的核心思想就是将横切�
 - **AfterReturning（返回通知）**：目标对象的方法调用完成，在返回结果值之后触发。
 - **AfterThrowing（异常通知）**：目标对象的方法运行中抛出/触发异常后触发。**AfterRunning和AfterThrowing两者互斥**。如果方法调用成功无异常，则会有返回值；如果方法抛出异常，则不会有返回值。
 - **Around（环绕通知）**：编程式控制目标对象的方法调用。环绕通知是所有通知类型中可操作范围最大的一种，因为它**可以直接拿到目标对象，以及要执行的方法，所以环绕通知可以任意的在目标对象的方法调用前后搞事，甚至不调用目标对象的方法**
+
+#### AOP实例（日志记录）
+##### 切面实例
+``` java
+@Aspect  // 标记一个类是切面类
+@Component  
+@Slf4j  
+public class WebLogAop
+```
+##### 切点实例
+
+``` java
+/**
+* 定义了切面的拦截规则， 拦截带有@RestController注解的类
+*/
+@Pointcut("@within(org.springframework.web.bind.annotation.RestController)")  
+public void webLog() {  
+}
+```
+
+##### 前置通知实例
+``` java
+/**  
+ * @param joinPoint 切点  JoinPoint对应的是@Pointcut拦截到的方法
+ */
+@Before("webLog()")  
+    public void before(JoinPoint joinPoint) throws Exception {  
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();  
+        HttpServletRequest request = attributes.getRequest();  
+        MDC.put("requestId", String.valueOf(System.currentTimeMillis()));  
+        MDC.put("requestUrl", request.getRequestURI());  
+        Object[] args = joinPoint.getArgs();  
+        // 获取方法上的注解  
+        Signature signature = joinPoint.getSignature();  
+        MethodSignature methodSignature = (MethodSignature) signature;  
+		// 获取参数名称 一一对应  
+        String[] parameterNames = methodSignature.getParameterNames();  
+		// 获取参数类型 一一对应  
+        Class[] parameterTypes = methodSignature.getParameterTypes();  
+        for (int i = 0; i < args.length; i++) {  
+            if (args[i] == null || args[i] instanceof HttpServletResponse || args[i] instanceof HttpServletRequest) {  
+                continue;  
+            }  
+            try {  
+                if (MultipartFile.class == parameterTypes[i]) {  
+                    //说明这次传参是文件类型  
+                    MultipartFile file = (MultipartFile) args[i];  
+                    log.info("参数类型是文件,文件名称:{},文件大小:{}KB", file.getOriginalFilename(), file.getSize() / 1024);  
+                } else {  
+                    log.info("请求参数为:{}", JSON.toJSONString(args[i]));  
+                }  
+            } catch (Exception e) {  
+                e.printStackTrace();  
+                log.error("请求参数转换json失败");  
+            }  
+        }  
+    }
+```
+
+##### 返回通知实例
+``` java
+/**  
+ * @param ret 控制器返回对象  
+ */  
+@AfterReturning(returning = "ret", pointcut = "webLog()")  
+public void afterReturn(JoinPoint joinPoint, Object ret) {  
+    String requestId = MDC.get("requestId");  
+    String interval = "";  
+    if (StringUtils.isNotBlank(requestId)) {  
+        Long startTime = Long.valueOf(requestId);  
+        Long endTime = System.currentTimeMillis();  
+        interval = "处理时间:" + (endTime - startTime) + "ms";  
+    }  
+    log.info(interval + "   响应数据为:" + JSON.toJSONString(ret));  
+    MDC.clear();  
+}
+```
+
+##### 异常通知实例
+``` java
+/**  
+ * 异常通知  
+ *  
+ * @param exception  
+ */  
+@AfterThrowing(pointcut = "webLog()", throwing = "exception")  
+public void afterThrowing(JoinPoint joinPoint, Exception exception) {  
+    String requestId = MDC.get("requestId");  
+    String interval = "";  
+    if (StringUtils.isNotBlank(requestId)) {  
+        Long startTime = Long.valueOf(requestId);  
+        Long endTime = System.currentTimeMillis();  
+        interval = "处理时间:" + (endTime - startTime) + "ms";  
+    }  
+    exception.printStackTrace();  
+    log.error(interval + "  接口异常", exception);  
+    MDC.clear();  
+}
+```
 #### AOP的实现
 AOP的常见实现方式有动态代理、字节码操作等方式。
 SpringAOP就是基于动态代理的，如果要代理的对象，实现了某个接口，那么SpringAOP会使用JDK Proxy，去创建代理对象而对于没有实现接口的对象，这时候SpringAOP会使用Cglib生成一个被代理对象的子类来作为代理。
