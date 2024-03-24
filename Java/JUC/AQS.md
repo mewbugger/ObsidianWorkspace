@@ -7,7 +7,7 @@ AQS（`AbstractQueuedSynchronizer`）是一个用来**构建锁和同步器的�
 	CLH(Craig,Landin,and Hagersten)队列是一个虚拟的双向队列(虚拟的双向队列即不存在队列实例，仅存在结点之间的关联关系)。AQS是将每条请求共享资源的线程封装成一个CLH锁队列的一个结点(Node)来实现锁的分配。
 */
 ```
-AQS使用一个**int成员变量**（state）来**表示同步状态**，通过内置的**FIFO队列**来完成获取资源线程的排队工作。AQS使用CAS对该同步状态进行原子操作实现对其值的修改。
+AQS使用一个****（state）来**表示同步状态**，通过内置的**FIFO队列**来完成获取资源线程的排队工作。AQS使用CAS对该同步状态进行原子操作实现对其值的修改。
 ``` java
 private volatile int state;//共享变量，使用volatile修饰保证线程可见性
 ```
