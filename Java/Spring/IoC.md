@@ -58,7 +58,7 @@ Spring Bean的创建是典型的工厂模式，这一系列的Bean工厂，也�
 ##### BeanDefinition：各种Bean对象及其相互的关系
 Bean对象存在依赖嵌套等关系，所以设计者设计了BeanDefinition，它用来对Bean对象及关系定义；我们在理解时只需要抓住如下三个要点：
 - `BeanDefinition`定义了各种Bean对象及其相互的关系
-- `BeanDefinitionReade`r是BeanDefinition的解析器
+- `BeanDefinitionReader`是BeanDefinition的解析器
 - `BeanDefinitionHolder`是BeanDefinition的包装类，用来存储BeanDefinition，name以及aliases等
 ##### ApplicationContext：IoC接口设计和实现
 IoC容器的接口类是`ApplicationContext`，很显然它必然继承BeanFactory对Bean规范（最基本的ioc容器的实现）进行定义。而`ApplicationContext`表示的是应用的上下文，**除了**对Bean的管理外，还至少应该包含了
