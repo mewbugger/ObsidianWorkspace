@@ -63,6 +63,8 @@ public class Main {
 - `StringBuffer`是线程安全的，内部使用synchronized进行同步
 
 #### `String.intern()`
+**如果字符串常量池中已经存在一个等于该字符串的对象，intern()方法会返回这个已存在的对象的引用**
+**如果池中没有等于该字符串的对象，intern()方法会将该字符串添加到池中，并返回新添加的字符串对象**
 使用`String.intern()`可以保证相同内容的字符串变量引用同一的内存对象。
 示例如下：
 ``` java
@@ -80,4 +82,20 @@ System.out.println(s1.intern() == s3);  // true
 String s4 = "bbb";  
 String s5 = "bbb";  
 System.out.println(s4 == s5);  // true
+```
+`new String("a")`确保了在堆上创建了一个新的`String`对象`s1`，当出现"a"这类的字面值的时候，会将a直接加入到字符串常量池中。
+s1.intern()没有重新赋值，所以s1还是堆里面的对象
+s2 = "a"，获取的是池中的引用对象
+
+字符串"aa"是通过字符串对象的连接操作动态生成的，这意味着在编译时，它不会被加入到字符串常量池中。**所以**，s3.intern()后会把s3的引用放入字符串常量池，此时字符串常量池中的引用是s3
+``` java
+String s1 = new String("a");
+s1.intern();
+String s2 = "a";
+System.out.println(s1 == s2);  // false
+
+String s3 = new String("a") + new String("a");
+s3.intern();
+String s4 = "aa";
+System.out.println(s3 == s4);  // true
 ```
