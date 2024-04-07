@@ -1,7 +1,7 @@
 #### 概览
 `String`被声明为`final`，因此它不可被继承。
 
-内部使用`char`数组(`value`)存储数据，该数组被声明为`final`，这意味着`value`数组初始化之后就不能再引用其他数组。并且`String`内部没有改变`value`数组的方法，因此可以保证`String`不可变。
+内部使用`char`数组(`value`)存储数据，该数组被声明为`final` [final&static](final&static.md)，这意味着`value`数组初始化之后就不能再引用其他数组。并且`String`内部**没有改变**`value`数组的方法，因此可以保证`String`不可变。
 ``` java
 public final class String  
         implements java.io.Serializable, Comparable<String>, CharSequence {  
