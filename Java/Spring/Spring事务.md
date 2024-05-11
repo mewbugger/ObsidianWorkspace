@@ -19,6 +19,6 @@
 - **`TransactionDefinition.PROPAGATION_NEVER`**：以非事务方式运行，如果当前存在事务，则抛出异常。
 #### 事务的隔离级别 （[隔离级别](../../数据库/基础和原理/隔离级别.md)）
 - **`TransactionDefinition.ISOLATION_DEFAULT`**：使用后端数据库默认的隔离级别，`MySQL`默认采用的`REPEATABLE_READ`隔离级别，`Oracle`默认采用的`READ_COMITTED`隔离级别
-- **`TransactionDefinition.ISOLATION_READ_UNCOMMITTED`**：最低的隔离级别，使用这个隔离级别很少，因为它允许读取尚未提交的数据变更，**可能会导致脏读、幻读或不可重复读。**[[../../数据库/基础和原理/并发一致性问题.md|并发一致性问题]]
+- **`TransactionDefinition.ISOLATION_READ_UNCOMMITTED`**：最低的隔离级别，使用这个隔离级别很少，因为它允许读取尚未提交的数据变更，**可能会导致脏读、幻读或不可重复读。**[[../../数据库/基础和原理/并发一致性问题（T1，T2指的是事务）|并发一致性问题（T1，T2指的是事务）]]
 - **`TransactionDefinition.ISOLATION_REPEATABLE_READ`**：对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，**可以阻止脏读和不可重复读**，**但幻读仍有可能发生**。
 - **`TransactionDefinition.ISOLATION_SERIALIZABLE`**：最高隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样的事务之间就完全不可能产生干扰，也就是说，**该级别可以防止脏读、不可重复读以及幻读**。但是这将严重影响程序的性能。通常情况下也不会用到该级别。
