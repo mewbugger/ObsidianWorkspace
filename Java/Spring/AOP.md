@@ -41,7 +41,7 @@ public void webLog() {
 ##### 前置通知实例
 ``` java
 /**  
- * @param joinPoint 切点  JoinPoint对应的是@Pointcut拦截到的方法
+ * @param joinPoint 切点  JoinPoint对应的是@Pointcut拦截到的方法及其响应入参，注解等
  */
 @Before("webLog()")  
     public void before(JoinPoint joinPoint) throws Exception {  
@@ -185,3 +185,12 @@ SimpleClass proxy = (SimpleClass) enhancer.create();
 proxy.test(); // 调用代理方法
 
 ```
+
+#### Spring官方文档不推荐基于字段来实现依赖注入
+**基于字段依赖注入：**
+``` java
+@Autowired  
+private ProductService productService;
+```
+**原因：**
+1. **可能会出现NPE问题**： 在Spring中，基于字段的依赖注入是通过反射机制在对象实例化之后进行的。这意味着，在对象的构造函数执行完毕之后，才开始进行依赖注入。如果在构造函数中、构造后的初始化方法前，或者在依赖注入之前尝试访问这些依赖的字段，这些字段可能还未被注入，从而导致NPE。
