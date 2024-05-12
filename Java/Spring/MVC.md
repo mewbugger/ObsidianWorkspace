@@ -10,15 +10,16 @@ MVC是一种设计模式，Spring MVC是一款很优秀的MVC框架。Spring MVC
 
 ##### DispatcherServlet
 **工作流程**：
-1. **接收请求**：当客户端发送一个 `HTTP` 请求到应用程序时，请求首先到达 `DispatcherServlet`。
-2. **请求映射**：`DispatcherServlet` 使用 `HandlerMapping`（处理程序映射器）来确定哪个控制器（Controller）应该处理这个请求。
-3. **处理器链**：`HandlerMapping`将返回一个`HandlerExecutionChain`对象，包含了要执行的处理器（`Controller`）以及拦截器（`Interceptors`）链。处理器表示真正执行业务逻辑的组件，拦截器用于在处理器执行前后进行预处理和后处理。
-4. **调用处理器适配器**：找到合适的处理器后，`DispatcherServlet` 会调用 `HandlerAdapter`（处理器适配器）来调用处理器。
-5. **执行处理器**：HandlerAdapter 会调用具体的处理（Controller）来处理请求。
-6. **返回 ModelAndView**：处理器执行完成后，会返回一个`ModelAndView` 对象，该对象包含了模型数据和视图名。
-7. **视图解析**：`DispatcherServlet` 会将 `ModelAndView` 对象传给 `ViewResolver`（视图解析器）来解析得到具体的视图。
-8. **渲染视图**：`DispatcherServlet` 会根据 `ViewResolver` 解析得到的视图来渲染视图，即将模型数据填充到视图中。
-9. **响应用户**：最后，`DispatcherServlet` 会将渲染后的视图返回给用户。
+1. **过滤器链(Filter Chain)**：在进入`DispatcherServlet`之前，过滤器链会先处理请求，典型的过滤器操作包括**跨域资源共享、编码设置、安全过滤和日志记录**等。
+2. **接收请求**：当客户端发送一个 `HTTP` 请求到应用程序时，请求首先到达 `DispatcherServlet`。
+3. **请求映射**：`DispatcherServlet` 使用 `HandlerMapping`（处理程序映射器）来确定哪个控制器（Controller）应该处理这个请求。
+4. **处理器链**：`HandlerMapping`将返回一个`HandlerExecutionChain`对象，包含了要执行的处理器（`Controller`）以及拦截器（`Interceptors`）链。处理器表示真正执行业务逻辑的组件，拦截器用于在处理器执行前后进行预处理和后处理。
+5. **调用处理器适配器**：找到合适的处理器后，`DispatcherServlet` 会调用 `HandlerAdapter`（处理器适配器）来调用处理器。
+6. **执行处理器**：HandlerAdapter 会调用具体的处理（Controller）来处理请求。
+7. **返回 ModelAndView**：处理器执行完成后，会返回一个`ModelAndView` 对象，该对象包含了模型数据和视图名。
+8. **视图解析**：`DispatcherServlet` 会将 `ModelAndView` 对象传给 `ViewResolver`（视图解析器）来解析得到具体的视图。
+9. **渲染视图**：`DispatcherServlet` 会根据 `ViewResolver` 解析得到的视图来渲染视图，即将模型数据填充到视图中。
+10. **响应用户**：最后，`DispatcherServlet` 会将渲染后的视图返回给用户。
 
 ##### HandlerMapping
 `HandlerMapping` 的作用是根据请求的 URL，将请求映射到相应的处理器(Controller)上。它负责确定哪个处理器将处理特定的请求，以及哪些拦截器将应用于处理器。`HandlerMapping` 主要用于决定请求如何被处理，确定请求处理链。（**`RequestMapping`**）
