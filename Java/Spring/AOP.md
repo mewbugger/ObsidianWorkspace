@@ -119,7 +119,10 @@ public void afterThrowing(JoinPoint joinPoint, Exception exception) {
 ```
 #### AOP的实现
 AOP的常见实现方式有动态代理、字节码操作等方式。
-SpringAOP就是基于动态代理的，如果要代理的对象，实现了某个接口，那么SpringAOP会使用JDK Proxy，去创建代理对象而对于没有实现接口的对象，这时候SpringAOP会使用Cglib生成一个被代理对象的子类来作为代理。
+SpringAOP就是基于动态代理的，**如果要代理的对象，实现了某个接口，那么SpringAOP会使用JDK Proxy**，去创建代理对象而**对于没有实现接口的对象，这时候SpringAOP会使用Cglib生成一个被代理对象的子类来作为代理。**
+
+**Java的动态代理的最主要的用途就是应用在各种框架中。因为使用动态代理可以很方便地运行生成代理类，通过代理类可以做很多事情，比如AOP，比如过滤器、拦截器。**
+
 **JDK代理代码示例：**
 ``` java
 public interface Service {
