@@ -41,7 +41,7 @@ public void webLog() {
 ##### 前置通知实例
 ``` java
 /**  
- * @param joinPoint 切点  JoinPoint对应的是@Pointcut拦截到的方法及其响应入参，注解等
+ * @param joinPoint 连接点  JoinPoint对应的是@Pointcut拦截到的方法及其响应入参，注解等
  */
 @Before("webLog()")  
     public void before(JoinPoint joinPoint) throws Exception {  
