@@ -109,4 +109,5 @@ public void start() throws NacosException {
 ##### 地址服务器寻址
 `com.alibaba.nacos.core.cluster.lookup.AddressServerMemberLookup`
 地址服务器寻址模式是 Nacos 官方推荐的一种集群成员节点信息管理，该模式利用了一个**简易的 web 服务器**，**用于管理 cluster.conf 文件**的内容信息，这样，运维人员**只需要管理这一份集群成员节点内容即可**，而**每个Nacos 成员节点，只需要向这个 web 节点定时请求当前最新的集群成员节点列表信息即可**。
-![](../../../img/Pasted%20image%2020240317214446.png)因此，通过地址服务器这种模式，大大简化了 Nacos 集群节点管理的成本，同时，地址服务器是一个非常简单的 web 程序，其程序的稳定性能够得到很好的保障。
+![](../../../img/Pasted%20image%2020240317214446.png)
+因此，通过地址服务器这种模式，大大简化了 Nacos 集群节点管理的成本，同时，地址服务器是一个非常简单的 web 程序，其程序的稳定性能够得到很好的保障。
